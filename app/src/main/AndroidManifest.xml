@@ -20,7 +20,9 @@
         <activity android:name=".AsyncTaskActivity" />
         <activity android:name=".HandlerThreadActivity" />
         <activity android:name=".IntentServiceActivity" />
-        <activity android:name=".ThreadPoolActivity"></activity>
+        <activity android:name=".ThreadPoolActivity"/>
+        <service android:name=".MyIntentService"/>
     </application>
+
 
 </manifest>

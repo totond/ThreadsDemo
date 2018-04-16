@@ -1,5 +1,6 @@
 package yanzhikai.threadsdemo;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ public class AsyncTaskActivity extends AppCompatActivity {
 
     private AsyncTask<String, Float, String> task;
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +51,15 @@ public class AsyncTaskActivity extends AppCompatActivity {
 
             protected String doInBackground(String... urls) {
                 int count = urls.length;
+                if (isCancelled()){
+                    return "Cancel";
+                }
                 for (int i = 0; i < count; i++){
+                    if (isCancelled()){
+                        return "Cancel";
+                    }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(3000);
                         publishProgress((float) i / count);
                     } catch (InterruptedException e) {
                         e.printStackTrace();

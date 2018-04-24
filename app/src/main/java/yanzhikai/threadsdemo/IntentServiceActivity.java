@@ -49,9 +49,7 @@ public class IntentServiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intent_service);
         ButterKnife.bind(this);
-        Intent intent = new Intent(this,MyIntentService.class);
-        intent.putExtra("start",1);
-        bindService(intent,connection, Context.BIND_AUTO_CREATE);
+
     }
 
     @Override
@@ -62,7 +60,9 @@ public class IntentServiceActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_start)
     public void onViewClicked() {
-
+        Intent intent = new Intent(this,MyIntentService.class);
+        intent.putExtra("start",1);
+        bindService(intent,connection, Context.BIND_AUTO_CREATE);
     }
 
 

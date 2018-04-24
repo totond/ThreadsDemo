@@ -10,6 +10,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 测试线程中断的方法
+ */
 public class InterruptActivity extends AppCompatActivity {
     public static final String TAG = "InterruptActivity";
 

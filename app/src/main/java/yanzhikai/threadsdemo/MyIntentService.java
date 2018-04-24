@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * author : yany
@@ -13,6 +14,7 @@ import android.support.annotation.Nullable;
  */
 
 public class MyIntentService extends IntentService {
+    public static final String TAG = "MyIntentService";
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -21,6 +23,10 @@ public class MyIntentService extends IntentService {
      */
     public MyIntentService(String name) {
         super(name);
+    }
+
+    public MyIntentService() {
+        super(null);
     }
 
     @Nullable
@@ -36,8 +42,8 @@ public class MyIntentService extends IntentService {
             i = intent.getIntExtra("start", 0);
         }
         while (i < 100) {
-
             i += 4;
+            Log.d(TAG, "onHandleIntent: ");
         }
 
     }

@@ -2,27 +2,36 @@ package yanzhikai.threadsdemo;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Button;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AsyncTaskActivity extends AppCompatActivity {
     public static final String TAG = "AsyncTaskActivity";
+    @BindView(R.id.btn_start)
+    Button btnStart;
 
-    private AsyncTask<String, Float, String> task;
+    private AsyncTask<Integer, Integer, String> task;
 
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_async_task);
+        ButterKnife.bind(this);
 
-        task = new AsyncTask<String, Float, String>() {
+        task = new AsyncTask<Integer, Integer, String>() {
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
                 Log.d(TAG, "onPreExecute: init!");
+                btnStart.setEnabled(false);
             }
 
             @Override
@@ -32,9 +41,10 @@ public class AsyncTaskActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onProgressUpdate(Float... values) {
+            protected void onProgressUpdate(Integer... values) {
                 super.onProgressUpdate(values);
                 Log.d(TAG, "onProgressUpdate: " + values[0]);
+                btnStart.setText(String.valueOf(values[0]) + "%");
             }
 
             @Override
@@ -49,18 +59,17 @@ public class AsyncTaskActivity extends AppCompatActivity {
                 Log.d(TAG, "onCancelled: ");
             }
 
-            protected String doInBackground(String... urls) {
-                int count = urls.length;
-                if (isCancelled()){
+            protected String doInBackground(Integer... integers) {
+                if (isCancelled()) {
                     return "Cancel";
                 }
-                for (int i = 0; i < count; i++){
-                    if (isCancelled()){
+                for (int i = 0; i <= 100; i += integers[0]) {
+                    if (isCancelled()) {
                         return "Cancel";
                     }
                     try {
-                        Thread.sleep(3000);
-                        publishProgress((float) i / count);
+                        Thread.sleep(300);
+                        publishProgress(i);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -68,7 +77,11 @@ public class AsyncTaskActivity extends AppCompatActivity {
                 return "Finish all!";
             }
         };
-        task.execute("www.baidu.com","www.google.com","www.amazon.com");
+    }
+
+    @OnClick(R.id.btn_start)
+    public void onViewClicked() {
+        task.execute(4);
     }
 
     @Override
